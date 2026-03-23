@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💗 lov3 music</title>
+
+  <style>
+    body{
+      margin:0;
+      padding:0;
+      background:#000;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      min-height:100vh;
+    }
+
+    .wrap{
+      position:relative;
+      width:100%;
+      max-width:500px;
+    }
+
+    .cover{
+      width:100%;
+      display:block;
+    }
+
+    /* 💗 버튼 */
+    .btn{
+      position:absolute;
+      top:72%;
+      left:27%;
+      transform:translate(-50%,-50%);
+      width:24px;
+      height:24px;
+      border-radius:50%;
+      background:linear-gradient(135deg,#ff9ecb,#ff6fa5);
+      color:#fff;
+      font-size:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      box-shadow:0 2px 10px rgba(255,105,180,.5);
+      user-select:none;
+      transition:transform .12s ease;
+    }
+
+    .btn:active{
+      transform:translate(-50%,-50%) scale(.9);
+    }
+
+    /* 🎧 숨김 사클 */
+    #sc-widget{
+      position:absolute;
+      left:-9999px;
+      top:-9999px;
+      opacity:0;
+      border:0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrap">
+
+    <!-- 🎀 이미지 -->
+    <img class="cover"
+      src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FbV7P2n%2FdJMb99TgTSB%2FAAAAAAAAAAAAAAAAAAAAAEKZhjRvJhIsn5ihewGdx3bEEbZ-4t1ZP2MLxvzjikmh%2Fimg.png"
+    >
+
+    <!-- 💗 버튼 -->
+    <div id="musicBtn" class="btn">▶</div>
+
+  </div>
+
+  <!-- 🎧 사운드클라우드 -->
+  <iframe id="sc-widget"
+    allow="autoplay"
+    src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/minchea/oqttjj6jo1g7&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=false">
+  </iframe>
+
+  <!-- 🎵 API -->
+  <script src="https://w.soundcloud.com/player/api.js"></script>
+
+  <script>
+    const btn = document.getElementById("musicBtn");
+    const widget = SC.Widget(document.getElementById("sc-widget"));
+
+    let playing = false;
+    let ready = false;
+
+    widget.bind(SC.Widget.Events.READY, function(){
+      ready = true;
+    });
+
+    btn.addEventListener("click", function(){
+      if(!ready) return;
+
+      if(playing){
+        widget.pause();
+      } else {
+        widget.play();
+      }
+    });
+
+    widget.bind(SC.Widget.Events.PLAY, function(){
+      playing = true;
+      btn.textContent = "❚❚";
+    });
+
+    widget.bind(SC.Widget.Events.PAUSE, function(){
+      playing = false;
+      btn.textContent = "▶";
+    });
+
+    widget.bind(SC.Widget.Events.FINISH, function(){
+      playing = false;
+      btn.textContent = "▶";
+    });
+  </script>
+
+</body>
+</html>
